@@ -168,7 +168,6 @@ def analyze_fraud_risk(
 # ─────────────────────────────────────────────
 # Tool 3 — Loan Default Prediction
 # ─────────────────────────────────────────────
-
 @tool
 def predict_loan_default(
     credit_limit: float,
@@ -182,33 +181,39 @@ def predict_loan_default(
     Predict customer loan default risk.
     """
 
-    row = [
-        credit_limit,
-        1,
-        education,
-        2,
-        age,
-        last_payment_delay,
-        0, 0, 0, 0, 0,
-        bill_amount,
-        0, 0, 0, 0, 0,
-        payment_amount,
-        0, 0, 0, 0, 0
-    ]
+    input_data = {
+        "LIMIT_BAL": [credit_limit],
+        "SEX": [1],
+        "EDUCATION": [education],
+        "MARRIAGE": [2],
+        "AGE": [age],
+        "PAY_0": [last_payment_delay],
+        "PAY_2": [0],
+        "PAY_3": [0],
+        "PAY_4": [0],
+        "PAY_5": [0],
+        "PAY_6": [0],
+        "BILL_AMT1": [bill_amount],
+        "BILL_AMT2": [0],
+        "BILL_AMT3": [0],
+        "BILL_AMT4": [0],
+        "BILL_AMT5": [0],
+        "BILL_AMT6": [0],
+        "PAY_AMT1": [payment_amount],
+        "PAY_AMT2": [0],
+        "PAY_AMT3": [0],
+        "PAY_AMT4": [0],
+        "PAY_AMT5": [0],
+        "PAY_AMT6": [0]
+    }
 
-    input_df = pd.DataFrame(
-        [row],
-        columns=loan_features
-    )
+    input_df = pd.DataFrame(input_data)
 
-    scaled_data = loan_scaler.transform(
-        input_df
-    )
+    scaled_data = loan_scaler.transform(input_df)
 
     probability = (
-        loan_model.predict_proba(
-            scaled_data
-        )[0][1] * 100
+        loan_model.predict_proba(scaled_data)[0][1]
+        * 100
     )
 
     if probability > 60:
@@ -235,6 +240,7 @@ def predict_loan_default(
         f"Recommendation: "
         f"{recommendation}"
     )
+
 
 # ─────────────────────────────────────────────
 # Create Banking AI Agent
