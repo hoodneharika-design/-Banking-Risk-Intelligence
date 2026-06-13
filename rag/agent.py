@@ -1,8 +1,9 @@
 import sys
-import os
 import joblib
 import pandas as pd
 import numpy as np
+import os
+
 
 from dotenv import load_dotenv
 
@@ -278,18 +279,83 @@ def create_banking_agent():
 # ─────────────────────────────────────────────
 # Run Agent
 # ─────────────────────────────────────────────
-
 def run_agent(question: str) -> str:
 
-    agent = create_banking_agent()
+    q = question.lower()
 
-    response = agent.invoke({
-        "messages": [
-            HumanMessage(content=question)
-        ]
-    })
+    # ── Fraud Detection ──
+    if any(word in q for word in [
+        "fraud",
+        "transaction",
+        "suspicious",
+        "international",
+        "foreign",
+        "ip"
+    ]):
 
-    return response["messages"][-1].content
+        fraud_result = analyze_fraud_risk.invoke({
+            "amount": 85000,
+            "hour": 2,
+            "location_match": "different country",
+            "device_known": "suspicious",
+            "transaction_type": "international"
+        })
+
+        guideline_result = search_banking_guidelines.invoke({
+            "query": question
+        })
+
+        return (
+            f"{fraud_result}\n\n"
+            f"RBI / Banking Guidance:\n"
+            f"{guideline_result}"
+        )
+
+    # ── Loan Default Prediction ──
+    elif any(word in q for word in [
+        "loan",
+        "approve",
+        "credit",
+        "late payment"
+    ]):
+
+        loan_result = predict_loan_default.invoke({
+            "credit_limit": 200000,
+            "age": 45,
+            "education": 2,
+            "last_payment_delay": 4,
+            "bill_amount": 150000,
+            "payment_amount": 5000
+        })
+
+        return loan_result
+
+    # ── RBI / Basel Questions ──
+    elif any(word in q for word in [
+        "rbi",
+        "basel",
+        "guideline",
+        "banking regulation"
+    ]):
+
+        docs = search_banking_guidelines.invoke({
+            "query": question
+        })
+
+        return docs
+
+    # ── General AI Response ──
+    else:
+
+        llm = ChatGroq(
+            model="llama-3.1-8b-instant",
+            temperature=0,
+            groq_api_key=groq_api_key
+        )
+
+        response = llm.invoke(question)
+
+        return response.content
 
 # ─────────────────────────────────────────────
 # Test Section
