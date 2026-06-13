@@ -1,0 +1,25 @@
+BASEL III CREDIT RISK GUIDELINES
+
+1. CREDIT RISK ASSESSMENT
+Banks must maintain Capital Adequacy Ratio (CAR) of minimum 10.5%.
+All loan applications must undergo credit scoring using approved models.
+Default probability above 60% requires automatic rejection workflow.
+Portfolio-level default rate must be monitored monthly.
+
+2. LOAN DEFAULT CLASSIFICATION
+Standard: 0-30 days overdue
+Sub-standard: 31-90 days overdue  
+Doubtful: 91-180 days overdue
+Loss: 180+ days overdue
+
+3. RISK WEIGHTED ASSETS
+Retail loans: 75% risk weight
+Mortgage loans: 35% risk weight
+Corporate loans: 100% risk weight
+High-risk customers: 150% risk weight
+
+4. MODEL RISK MANAGEMENT
+All ML models used for credit decisions must be validated annually.
+Model explainability is mandatory for regulatory compliance.
+SHAP values or equivalent must be maintained for audit trail.
+Back-testing required every 6 months.

@@ -1,0 +1,8 @@
+.env
+Groq_API.env
+*.env
+data/creditcard.csv
+venv/
+__pycache__/
+*.pyc
+chroma_db/

@@ -1,0 +1,31 @@
+COMMON BANKING FRAUD PATTERNS
+
+1. CARD NOT PRESENT FRAUD
+Fraudster uses stolen card details for online transactions.
+Key indicators: New device, different IP, high amount, odd hours.
+Model feature: V14 negative values strongly indicate this pattern.
+Recommended action: Block transaction, send OTP to registered mobile.
+
+2. ACCOUNT TAKEOVER FRAUD
+Fraudster gains access to customer account.
+Key indicators: New device login, password change, large transfer within 24hrs.
+Model feature: V4 high positive values indicate account behaviour change.
+Recommended action: Freeze account, contact customer immediately.
+
+3. VELOCITY FRAUD
+Multiple transactions in short time window.
+Key indicators: 3+ transactions within 1 hour, escalating amounts.
+Model feature: V12 captures transaction frequency anomaly.
+Recommended action: Temporary hold after 3rd transaction, manual review.
+
+4. INTERNATIONAL FRAUD
+Card used internationally without prior intimation.
+Key indicators: Foreign IP, currency mismatch, odd hours.
+Model feature: V1 and V3 capture geographic anomalies.
+Recommended action: Block international transactions, verify with customer.
+
+5. LOAN FRAUD INDICATORS
+Fake income documents, inflated assets.
+Key indicators: Very high credit limit requests, short employment history.
+Payment history: PAY_0 >= 2 months late is strongest default predictor.
+Recommended action: Request original salary slips, bank statements.

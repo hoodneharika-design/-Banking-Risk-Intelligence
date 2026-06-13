@@ -1,0 +1,22 @@
+RBI FRAUD PREVENTION GUIDELINES 2023
+
+1. TRANSACTION MONITORING
+Banks must monitor all transactions above Rs 50,000 in real time.
+Transactions originating from foreign IPs must be verified via OTP.
+Multiple transactions within 1 hour from same account require review.
+Night transactions between 12AM-5AM carry elevated fraud risk.
+
+2. SUSPICIOUS TRANSACTION REPORTING
+Banks must report suspicious transactions to FIU-IND within 7 days.
+Any transaction deviating more than 300% from customer average must be flagged.
+International transactions require additional KYC verification.
+
+3. CARD FRAUD PREVENTION
+Unrecognized device access must trigger immediate SMS alert to customer.
+Transactions from new devices above Rs 10,000 require 2FA.
+Location mismatch between card holder and transaction origin is a red flag.
+
+4. LOAN DEFAULT PREVENTION
+Customers with 3 or more consecutive late payments must be flagged.
+Credit utilization above 80% indicates high default risk.
+Customers in 60+ age group with high credit utilization need enhanced monitoring.
