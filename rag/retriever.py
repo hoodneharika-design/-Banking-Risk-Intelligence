@@ -18,10 +18,15 @@ def load_retriever():
 
 
 def search_documents(query: str) -> str:
-    retriever = load_retriever()
-    docs = retriever.invoke(query)
-    results = "\n\n".join([doc.page_content for doc in docs])
-    return results
+    try:
+        retriever = load_retriever()
+        docs = retriever.get_relevant_documents(query)
+        if not docs:
+            return "No specific guidelines found for this query."
+        results = "\n\n".join([doc.page_content for doc in docs])
+        return results
+    except Exception as e:
+        return f"Guidelines search error: {str(e)}"
 
 
 # Test it
