@@ -178,70 +178,39 @@ def predict_loan_default(
     bill_amount: float,
     payment_amount: float
 ) -> str:
+    """Predict whether a loan applicant will default.
+    education: 1=Graduate, 2=University, 3=High School, 4=Other
+    last_payment_delay: 0=on time, 1=1 month late, 2=2 months late etc.
+    Returns default probability and recommendation.
     """
-    Predict customer loan default risk.
-    """
+    row = [
+        credit_limit, 1, education, 2, age,
+        last_payment_delay, 0, 0, 0, 0, 0,
+        bill_amount, 0, 0, 0, 0, 0,
+        payment_amount, 0, 0, 0, 0, 0
+    ]
 
-    input_data = {
-        "LIMIT_BAL": [credit_limit],
-        "SEX": [1],
-        "EDUCATION": [education],
-        "MARRIAGE": [2],
-        "AGE": [age],
-        "PAY_0": [last_payment_delay],
-        "PAY_2": [0],
-        "PAY_3": [0],
-        "PAY_4": [0],
-        "PAY_5": [0],
-        "PAY_6": [0],
-        "BILL_AMT1": [bill_amount],
-        "BILL_AMT2": [0],
-        "BILL_AMT3": [0],
-        "BILL_AMT4": [0],
-        "BILL_AMT5": [0],
-        "BILL_AMT6": [0],
-        "PAY_AMT1": [payment_amount],
-        "PAY_AMT2": [0],
-        "PAY_AMT3": [0],
-        "PAY_AMT4": [0],
-        "PAY_AMT5": [0],
-        "PAY_AMT6": [0]
-    }
+    inp = pd.DataFrame([row], columns=loan_features)
 
-    input_df = pd.DataFrame(input_data)
+    # Scale only continuous columns
+    categorical_cols = ['SEX', 'EDUCATION', 'MARRIAGE']
+    continuous_cols  = [c for c in loan_features
+                        if c not in categorical_cols]
 
-    scaled_data = loan_scaler.transform(input_df)
+    inp_final = inp.copy()
+    inp_final[continuous_cols] = loan_scaler.transform(
+        inp[continuous_cols])
 
-    probability = (
-        loan_model.predict_proba(scaled_data)[0][1]
-        * 100
-    )
+    prob = loan_model.predict_proba(inp_final)[0][1] * 100
 
-    if probability > 60:
-
-        recommendation = (
-            "REJECT — High default risk"
-        )
-
-    elif probability > 30:
-
-        recommendation = (
-            "REVIEW — Request more documents"
-        )
-
+    if prob > 60:
+        rec = "REJECT — High default risk"
+    elif prob > 30:
+        rec = "REVIEW — Request additional documents"
     else:
+        rec = "APPROVE — Low default risk"
 
-        recommendation = (
-            "APPROVE — Low default risk"
-        )
-
-    return (
-        f"Default Probability: "
-        f"{probability:.1f}% | "
-        f"Recommendation: "
-        f"{recommendation}"
-    )
-
+    return f"Default Probability: {prob:.1f}% | Recommendation: {rec}"
 
 # ─────────────────────────────────────────────
 # Create Banking AI Agent

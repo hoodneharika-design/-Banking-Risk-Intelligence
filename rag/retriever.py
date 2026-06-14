@@ -20,7 +20,7 @@ def load_retriever():
 def search_documents(query: str) -> str:
     try:
         retriever = load_retriever()
-        docs = retriever.get_relevant_documents(query)
+        docs = retriever.invoke(query)
         if not docs:
             return "No specific guidelines found for this query."
         results = "\n\n".join([doc.page_content for doc in docs])
