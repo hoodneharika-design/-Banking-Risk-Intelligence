@@ -437,8 +437,13 @@ elif module == "📋 Loan Default Prediction":
                 ]], columns=models['features'])
 
                 # Scale only continuous columns — categorical ones stay as-is
-                scaled = models['scaler'].transform(inp)
-                risk   = round(models['loan'].predict_proba(scaled)[0][1] * 100, 1)
+                categorical_cols = ['SEX', 'EDUCATION', 'MARRIAGE']
+                continuous_cols  = [c for c in models['features']
+                if c not in categorical_cols]
+                inp_final = inp.copy()
+                inp_final[continuous_cols] = models['scaler'].transform(
+                inp[continuous_cols])
+                risk = round(models['loan'].predict_proba(inp_final)[0][1] * 100, 1)
                 
             c1, c2, c3, c4 = st.columns(4)
             c1.metric("Default Risk",   f"{risk}%")
