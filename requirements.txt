@@ -35,3 +35,5 @@ uvicorn
 python-dotenv
 pypdf
 groq
+protobuf==3.20.3
+PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
